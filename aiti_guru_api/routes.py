@@ -38,6 +38,7 @@ async def make_acquiring(payment_data: PaymentData, db: async_session = Depends(
             # обновить счет клиента (триггер)
             # уменьшить remained_cost на величину платежа (триггер)
             # Обновляем статус заказа (триггер)
+            await db.flush()
             return {"id": payment.id}
         except SQLAlchemyError as e:
             raise HTTPException(
@@ -59,6 +60,8 @@ async def return_payment(id: int, db: async_session = Depends(get_db)):
             # вернуть деньги клиенту (триггер)
             # увеличить остаток стоимости (триггер)
             # при необходимости изменить статус заказа (триггер)
+            await db.refresh(user)
+            await db.refresh(order)
             return RefundResponse(
                 success=True,
                 payment_id=payment.id,
