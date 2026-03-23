@@ -5,7 +5,8 @@ id serial PRIMARY KEY,
 name varchar NOT NULL,
 current_money float NOT null
 )
-ALTER TABLE aiti_guru_api.users ADD CONSTRAINT current_money_ge_0 CHECK (current_money >= 0)
+
+ALTER TABLE aiti_guru_api.users ADD CONSTRAINT current_money_ge_0 CHECK (current_money >= 0);
 
 
 ------------------------------------------------------------------------------------------------------
@@ -21,8 +22,9 @@ status varchar NOT NULL,
 created_at timestamp DEFAULT now()
 CONSTRAINT remained_cost_no_more_than_cost CHECK (remained_cost <= cost)
 )
+
 ALTER TABLE aiti_guru_api.orders ADD CONSTRAINT status_set CHECK (status IN ('Не оплачен', 'Частично оплачен', 'Оплачен'));
-ALTER TABLE aiti_guru_api.orders ADD CONSTRAINT remained_cost_ge_0 CHECK (remained_cost >= 0)
+ALTER TABLE aiti_guru_api.orders ADD CONSTRAINT remained_cost_ge_0 CHECK (remained_cost >= 0);
 
 CREATE OR REPLACE FUNCTION set_default_order_values()
 RETURNS TRIGGER AS $$
@@ -50,7 +52,8 @@ amount float NOT null,
 type varchar,
 created_at timestamp DEFAULT now()
 )
-ALTER TABLE aiti_guru_api.payments ADD CONSTRAINT type_set CHECK (type IN (NULL, 'Наличные', 'Эквайринг'))
+
+ALTER TABLE aiti_guru_api.payments ADD CONSTRAINT type_set CHECK (type IN (NULL, 'Наличные', 'Эквайринг'));
 
 
 CREATE OR REPLACE FUNCTION validating_payment_and_set_created_at()
